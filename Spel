@@ -1,0 +1,21 @@
+<script src="http://koda.nu/simple.js">
+
+    function start ()
+    player = { x: 100, y: 100};
+
+    function update() {
+
+        clearScreen();
+
+        if (keyboard.a) { player.x = player.x - 5; }
+        if (keyboard.d) { player.x = player.x + 5; }
+        if (keyboard.w) { player.y = player.y - 5; }
+        if (keyboard.s) { player.y = player.y + 5; }
+        if (keyboard.space) {
+        player.x = mouse.x;
+        player.y = mouse.y;
+        }
+        circle(player.x, player.y, 20, "black");
+
+    }
+</script>
