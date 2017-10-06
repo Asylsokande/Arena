@@ -1,0 +1,196 @@
+<!doctype html>
+<html>
+<head>
+    <title>ArenaGem</title>
+</head>
+<body>
+    <canvas id="canvas" style="border:1px solid #000"></canvas>
+
+    <script>
+
+        (function () {
+            var requestAnimationFrame = window.requestAnimationFrame || window.mozRequestAnimationFrame || window.webkitRequestAnimationFrame || window.msRequestAnimationFrame;
+            window.requestAnimationFrame = requestAnimationFrame;           // requestar animationer så att det funkar
+        })();
+
+
+        var canvas = document.getElementById("canvas"),
+            ctx = canvas.getContext("2d"),
+            width = 1900,
+            height = 920,
+
+
+
+            //Spelare 1
+            player1 = {
+                x: width / 35.95,
+                y: height - 10,
+                width: 16,
+                height: 50,
+                speed: 2,
+                velX: 0,
+                velY: 0,
+                jumping: false
+                //Spelare 1s placering, höjd, bredd och hoppsnabbhet
+
+            },
+            keys = [],
+            friction = 0.5, //gör att det blir halt
+            gravity = 0.75; //gravitation
+
+        canvas.width = width;
+        canvas.height = height;
+
+
+        ctx.fillStyle = "cyan";
+        ctx.fillRect(player1.x, player1.y, player1.width, player1.height);
+
+
+
+        //Spelare 2
+        player2 = {
+            x: width / 1.05,
+            y: height - 10,
+            width: 16,
+            height: 50,
+            speed: 2,
+            velX: 0,
+            velY: 0,
+            jumping: false
+            //Spelare 2s placering, höjd, bredd och hoppsnabbhet
+
+        },
+            keys = [],
+            friction = 0.5, //gör att det blir halt
+            gravity = 0.75; //gravitation
+
+        canvas.width = width;
+        canvas.height = height;
+
+
+        ctx.fillStyle = "orange";
+        ctx.fillRect(player2.x, player2.y, player2.width, player2.height);
+
+
+
+        function update() {
+
+
+            ctx.clearRect(0, 0, width, height);
+
+
+            if (player1.x < player2.x + player2.width && player1.x + player1.width > player2.x &&
+                player1.y < player2.y + player2.height && player1.y + player1.height > player2.y) {
+                player.velX == 0 && player.velY == 0 && player.velX == 0 && player.velY == 0;
+            }
+            if (keys[68]) {
+                // högerpil för att gå till höger
+                player1.velX++;
+                player1.velX = player1.speed * 8; //variabel för hur snabb den är till höger
+            }
+
+            if (keys[65]) {
+                // vänsterpil för att gå till vänster
+                player1.velX--;
+                player1.velX = -player1.speed * 8; //variabel för hur snabb den är till vänster
+            }
+
+
+            //mer variablar
+
+            if (player1.x >= width - player1.width) {
+                player1.x = width - player1.width;
+            } else if (player1.x <= 0) {
+                player1.x = 0;
+            }
+            //Gör att player inte kan gå utanför kartan
+
+            if (player1.y >= height - player1.height) {
+                player1.y = height - player1.height;
+                player1.jumping = false;        //gör att du endast kan hoppa om du är på backen
+            }
+
+
+
+
+
+
+            if (keys[38]) {
+                // uppåt pil för att hoppa
+                if (!player2.jumping) {
+                    player2.jumping = true;
+                    player2.velY = -player2.speed * 8;  //Hopp Höjd variabel för att bestämma hur snabb den ska ändra riktning ner i backen
+                }
+            }
+            if (keys[39]) {
+                // högerpil för att gå till höger
+                player2.velX++;
+                player2.velX = player2.speed * 8; //variabel för hur snabb den är till höger
+            }
+
+            if (keys[37]) {
+                // vänsterpil för att gå till vänster
+                player2.velX--;
+                player2.velX = -player2.speed * 8; //variabel för hur snabb den är till vänster
+            }
+
+
+
+            //mer variablar
+
+            if (player2.x >= width - player2.width) {
+                player2.x = width - player2.width;
+            } else if (player2.x <= 0) {
+                player2.x = 0;
+            }
+            //Gör att player inte kan gå utanför kartan
+
+            if (player2.y >= height - player2.height) {
+                player2.y = height - player2.height;
+                player2.jumping = false;        //gör att du endast kan hoppa om du är på backen
+            }
+
+
+            ctx.fillStyle = "orange";
+            ctx.fillRect(player2.x, player2.y, player2.width, player2.height);
+            //Färg på Player
+
+
+            ctx.fillStyle = "cyan";
+            ctx.fillRect(player1.x, player1.y, player1.width, player1.height);
+            //Färg på Player
+
+
+
+
+            player1.velX *= friction;
+            player1.velY += gravity;
+
+            player1.x += player1.velX;
+            player1.y += player1.velY;
+
+
+            player2.velX *= friction;
+            player2.velY += gravity;
+
+            player2.x += player2.velX;
+            player2.y += player2.velY;
+
+            requestAnimationFrame(update);
+        }
+
+        document.body.addEventListener("keydown", function (e) {
+            keys[e.keyCode] = true;
+        });
+
+        document.body.addEventListener("keyup", function (e) {
+            keys[e.keyCode] = false;
+        });
+
+        window.addEventListener("load", function () {
+            update();
+        });
+
+    </script>
+</body>
+</html>
