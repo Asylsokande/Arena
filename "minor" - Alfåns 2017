@@ -1,0 +1,159 @@
+!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+</head>
+<body>
+
+
+    <script src="http://koda.nu/simple.js">
+
+
+        function start()
+        {
+            floor = {
+                width: 10000,
+                height: 10,
+                                         //Golvets storlekar
+            };                  
+
+            players = {
+
+                speed: 8,
+                width: 16,
+                height: 60,
+                                          //Båda players stats
+            };
+
+            
+
+            p1 = {x: 50, y: 600 }
+            p2 = {x: 1850, y: 600  }
+                                        //Båda players spawnpoints 
+
+            fp1 = { x: 925, y: 0 }
+                                        //Falling portal spawnpoints
+            
+            
+            ball1 = { x: p1.x, y: p1.y, size: 10, VelX: 0, color: "red" };
+            ball2 = { x: p2.x + 5, y: p2.y + 10, size: 10, VelX: 0, color: "red" };
+            direction = false;
+
+        }
+
+
+        function update()
+        {
+
+            
+         
+            
+     
+
+
+            if (keyboard.e) {
+                if (direction == true) {
+
+
+
+                    ball1.VelX = 105;
+
+                }
+                else {
+
+
+                    ball1.VelX = -105;
+                }
+            }
+            ball1.x += ball1.VelX;
+
+            if (ball1.x > 1920) {
+                ball1 = { x: p1.x + 25, y: p1.y + 50, size: 10, VelX: 0, color: "red" };
+                circle(ball1.x, ball1.y, 5, ball1.color);
+
+            }
+
+            if (ball1.x < 0) {
+                ball1 = { x: p1.x + 25, y: p1.y + 50, size: 5, VelX: 0, color: "red" };
+                circle(ball1.x, ball1.y, 5, ball1.color);
+            }
+
+            if (keyboard.a) {
+
+                direction = false;
+            }
+
+
+
+
+
+                                
+                            fp1.y += 26;
+                            p1.y += 13;
+                            p2.y += 13;
+                                                         //Velocity
+
+                            if (p1.y >= 902) {
+                                p1.y = 902
+                            }
+                                                         //Ground collision
+                            if (p2.y >= 902) {
+                                p2.y = 902
+                            }
+
+                            if (fp1.y >= 1000) {
+                                fp1.y = 0               // Portal tp:ar till spawn när den slår i backen (Skapar en Inf loop) 
+                            }
+
+
+                            if (p1.x >= 1875) {
+                                p1.x = 1875
+                            }
+
+                            if (p2.x >= 1875) {
+                                p2.x = 1875
+                            }                           // Gör att spelarna kolliderar med högra väggen.
+
+                            if (p1.x <= 25) {
+                                p1.x = 25
+                            }
+
+                            if (p2.x <= 25) {
+                                p2.x = 25
+                            }                           // Gör att spelarna kolliderar med vänstra väggen.
+
+
+
+
+            if (keyboard.a) { p1.x -= players.speed; }
+            if (keyboard.d) { p1.x += players.speed; direction = true;}
+            if (keyboard.w) { p1.y -= 27; }
+
+            if (keyboard.j) { p2.x -= players.speed; }
+            if (keyboard.l) { p2.x += players.speed; }
+            if (keyboard.i) { p2.y -= 27; }
+
+            fill("cyan")                                                            // Ger färg till bakgrunden
+            rectangle(p1.x, p1.y, players.width, players.height, "orange");        // Ritar ut p1
+            rectangle(p2.x, p2.y, players.width, players.height, "purple");       // Ritar ut p2
+            rectangle(0, 960, floor.width, 50, "black");                         // Ritar ut golvet
+            rectangle(fp1.x, fp1.y, 60, 60, "white");
+            circle(ball1.x, ball1.y, 5, ball1.color);
+           
+
+        }
+        
+
+
+
+
+
+
+
+
+    </script>
+
+
+</body>
+</html>
